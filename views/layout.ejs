@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='icon' href='favicon.ico' type='image/vnd.microsoft.icon' />
+    <link rel='stylesheet'
+        type='text/css'
+        media='only screen and (min-width: 800px) and (min-device-width: 600px)'
+        href='/stylesheets/wide.css' />
+  <link rel='stylesheet'
+        type='text/css'
+        media='only screen and (max-width: 480px)'
+        href='/stylesheets/smartphone.css' />
+  </head>
+  <body>
+   <div id="page">
+       <header class="main">
+        <h2>Quiz<span class="no-narrow">: el juego de las preguntas</span></h2>
+      </header>
+
+      <nav class="main" role="navigation">
+        <a href="/">Inicio</a>
+        <a href="/question">Preguntas</a>
+      </nav>
+
+      <section class="main">
+         <div>
+            <%- body %>
+         </div>
+      </section>
+
+      <footer class="main">
+         Echa un vistazo al código en
+         <a href="https://github.com/carlos-araque/quiz">
+        GitHub</a>
+      </footer>
+    </div>
+  </body>
+</html>

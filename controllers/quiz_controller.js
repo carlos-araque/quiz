@@ -1,4 +1,4 @@
-var models = require('')
+var models = require('../models')
 
 // GET /question
 exports.question = function(req, res, next) {
@@ -6,8 +6,8 @@ exports.question = function(req, res, next) {
     if (quiz) {
       var answer = req.query.answer || '';
       res.render('quizzes/question',{
-        question = quiz.question,
-        answer = answer
+        question : quiz.question,
+        answer : answer
       });
     }
     else {
@@ -25,8 +25,8 @@ exports.check = function(req, res, next) {
       var answer = req.query.answer;
       var result = answer === quiz.answer ? 'Correcta':'Incorrecta';
       res.render('quizzes/result',{
-        answer = answer;
-        result = result;
+        answer : answer,
+        result : result
       });
     }
     else {

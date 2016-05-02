@@ -56,3 +56,24 @@ exports.check = function(req, res, next) {
         result : result
     });
 };
+
+//GET new
+exports.new = function(req, res, next) {
+  res.render('quizzes/new');
+};
+
+//POST create
+exports.create = function(req, res, next) {
+  console.log("HHHHHH");
+  var quiz = models.Quiz.build({
+    question: req.body.question,
+    answer: req.body.answer
+  });
+  console.log("KKKKK");
+  quiz.save({fields: ["question", "answer"]})
+    .then(function(quiz) {
+      res.redirect('/quizzes');
+    }).catch(function(error) {
+      next(error);
+    });
+};

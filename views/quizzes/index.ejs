@@ -7,8 +7,11 @@
   </tr>
   <% } %>
 </table>
-<form method="get" action="/quizzes">
-  Palabra a buscar:
+
+<form method="get" class="derecha" action="/quizzes">
+
     <input type="text" name="search" value="">
     <input type="submit" value="Buscar">
   </form>
+
+  <a href="/quizzes/new"><button type="button">Crear pregunta</button></a>

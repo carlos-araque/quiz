@@ -50,7 +50,7 @@ exports.show = function(req, res, next) {
 //GET check
 exports.check = function(req, res, next) {
   var answer = req.query.answer || "";
-  var result = answer === req.quiz.answer ? 'Correcta':'Incorrecta';
+  var result = answer.toLowerCase() === req.quiz.answer.toLowerCase() ? 'Correcta':'Incorrecta';
     res.render('quizzes/result',{
         quiz : req.quiz,
         answer : answer,

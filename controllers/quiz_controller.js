@@ -1,4 +1,5 @@
 var models = require('../models');
+var Sequelize = require('sequelize');
 
 exports.load = function(req, res, next, quizId) {
   models.Quiz.findById(quizId).then(function(quiz) {
@@ -72,7 +73,15 @@ exports.create = function(req, res, next) {
     .then(function(quiz) {
       req.flash('success', 'Pregunta creada con éxito');
       res.redirect('/quizzes');
-    }).catch(function(error) {
+    }).catch(Sequelize.ValidationError, function(error) {
+      console.log(error);
+      req.flash('error', 'Errores en el formulario:');
+      for (var i in error.errors) {
+        req.flash('error', error.errors[i].value);
+      };
+      res.render('quizzes/new');
+    })
+    .catch(function(error) {
       req.flash('error', 'Error al crear pregunta: '+error.message);
       next(error);
     });

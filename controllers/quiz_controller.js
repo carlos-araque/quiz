@@ -64,16 +64,16 @@ exports.new = function(req, res, next) {
 
 //POST create
 exports.create = function(req, res, next) {
-  console.log("HHHHHH");
   var quiz = models.Quiz.build({
     question: req.body.question,
     answer: req.body.answer
   });
-  console.log("KKKKK");
   quiz.save({fields: ["question", "answer"]})
     .then(function(quiz) {
+      req.flash('success', 'Pregunta creada con éxito');
       res.redirect('/quizzes');
     }).catch(function(error) {
+      req.flash('error', 'Error al crear pregunta: '+error.message);
       next(error);
     });
 };

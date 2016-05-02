@@ -15,13 +15,28 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizzes
 exports.index = function(req, res, next) {
+  if(req.query.search){
+    var texto = '%' + req.query.search.toString()+'%';
+    texto = texto.replace(/ /g, "%"); //replace espacios por %
+    console.log(texto);
+    models.Quiz.findAll({where: ["question like ?", texto]})
+        .then(function(quizzes) {
+          console.log(quizzes);
+            res.render('quizzes/index',
+                {
+                    quizzes: quizzes
+                }
+            );
+        }
+    ).catch(function(error){next(error);});
+  }else{
   models.Quiz.findAll().then(function(quizzes) {
     res.render('quizzes/index.ejs', {
       quizzes : quizzes
     });
   }).catch(function(error){
     next(error);
-  });
+  });}
 };
 
 // GET /quizzes/:id

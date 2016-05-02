@@ -18,10 +18,8 @@ exports.index = function(req, res, next) {
   if(req.query.search){
     var texto = '%' + req.query.search.toString()+'%';
     texto = texto.replace(/ /g, "%"); //replace espacios por %
-    console.log(texto);
     models.Quiz.findAll({where: ["question like ?", texto]})
         .then(function(quizzes) {
-          console.log(quizzes);
             res.render('quizzes/index',
                 {
                     quizzes: quizzes
@@ -56,5 +54,26 @@ exports.check = function(req, res, next) {
         quiz : req.quiz,
         answer : answer,
         result : result
+    });
+};
+
+//GET new
+exports.new = function(req, res, next) {
+  res.render('quizzes/new');
+};
+
+//POST create
+exports.create = function(req, res, next) {
+  console.log("HHHHHH");
+  var quiz = models.Quiz.build({
+    question: req.body.question,
+    answer: req.body.answer
+  });
+  console.log("KKKKK");
+  quiz.save({fields: ["question", "answer"]})
+    .then(function(quiz) {
+      res.redirect('/quizzes');
+    }).catch(function(error) {
+      next(error);
     });
 };

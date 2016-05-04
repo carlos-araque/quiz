@@ -97,13 +97,11 @@ exports.edit = function(req, res, next){
 exports.update = function(req, res, next) {
   req.quiz.question = req.body.question;
   req.quiz.answer = req.body.answer;
-  console.log(req.quiz);
   req.quiz.save({fields: ["question", "answer"]}).then(function(quiz){
     req.flash('success', 'Pregunta modificada con éxito');
     res.redirect('/quizzes');
   }).catch(Sequelize.ValidationError, function(error) {
     req.flash('error', 'Errores en el formulario:');
-    console.log("EEE");
     for(var i in error.errors){
       req.flash('error', error.errors[i].value);
     };
@@ -112,6 +110,17 @@ exports.update = function(req, res, next) {
     });
   }).catch(function(error) {
     req.flash('error', 'Error al editar el Quiz:'+ error.message);
+    next(error);
+  });
+};
+
+//DESTROY /quizzes/:id
+exports.destroy = function(req, res, next) {
+  req.quiz.destroy().then(function(quiz) {
+    req.flash('success', quiz.question+' borrado con éxito');
+    res.redirect('/quizzes');
+  }).catch(function(error){
+    req.flash('error', 'Error al borrar el quiz: '+error.message);
     next(error);
   });
 };

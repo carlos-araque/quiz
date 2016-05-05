@@ -37,8 +37,12 @@ exports.index = function(req, res, next) {
                 quizzes: quizzes
             }
         );
+<<<<<<< HEAD
     }
 ).catch(function(error){next(error);});
+=======
+    }).catch(function(error){next(error);});
+>>>>>>> master
   }else{
   models.Quiz.findAll().then(function(quizzes) {
     res.render('quizzes/index', {

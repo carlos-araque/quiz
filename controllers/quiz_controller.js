@@ -5,7 +5,6 @@ exports.load = function(req, res, next, quizId) {
   models.Quiz.findById(quizId).then(function(quiz) {
     if(quiz){
       req.quiz = quiz;
-      console.log("HHH");
       next();
     } else{
       throw new Error("No existe quizId=" + quizId);
@@ -29,6 +28,17 @@ exports.index = function(req, res, next) {
             );
         }
     ).catch(function(error){next(error);});
+  }else if(req.query.tematica){
+    var tematica = req.query.tematica;
+    models.Quiz.findAll({where : { tematica : tematica}})
+    .then(function(quizzes) {
+        res.render('quizzes/index',
+            {
+                quizzes: quizzes
+            }
+        );
+    }
+).catch(function(error){next(error);});
   }else{
   models.Quiz.findAll().then(function(quizzes) {
     res.render('quizzes/index', {
@@ -43,6 +53,7 @@ exports.index = function(req, res, next) {
 exports.show = function(req, res, next) {
     var answer = req.query.answer || '';
       res.render('quizzes/show',{
+        tematica : req.quiz.tematica.toUpperCase(),
         quiz : req.quiz,
         answer : answer
       });
@@ -68,9 +79,10 @@ exports.new = function(req, res, next) {
 exports.create = function(req, res, next) {
   var quiz = models.Quiz.build({
     question: req.body.question,
-    answer: req.body.answer
+    answer: req.body.answer,
+    tematica: req.body.tematica
   });
-  quiz.save({fields: ["question", "answer"]})
+  quiz.save({fields: ["question", "answer", "tematica"]})
     .then(function(quiz) {
       req.flash('success', 'Pregunta creada con éxito');
       res.redirect('/quizzes');

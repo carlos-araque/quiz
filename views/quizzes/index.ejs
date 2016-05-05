@@ -1,3 +1,4 @@
+<p><strong>PREGUNTAS<strong></p>
 <table>
   <% for (var i in quizzes) { %>
   <tr>
@@ -15,7 +16,18 @@
   </tr>
   <% } %>
 </table>
+<br>
+<form method="get" action="/quizzes">
 
+  <select name="tematica">
+    <option></option>
+    <option>geografía</option>
+    <option>tecnología</option>
+    <option>ocio</option></select>
+    <input type="submit" value="Buscar por tematica">
+  </form>
+<br>
+<br>
 <form method="get" class="derecha" action="/quizzes">
 
     <input type="text" name="search" value="">

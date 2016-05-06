@@ -37,12 +37,7 @@ exports.index = function(req, res, next) {
                 quizzes: quizzes
             }
         );
-<<<<<<< HEAD
-    }
-).catch(function(error){next(error);});
-=======
     }).catch(function(error){next(error);});
->>>>>>> master
   }else{
   models.Quiz.findAll().then(function(quizzes) {
     res.render('quizzes/index', {
@@ -76,7 +71,10 @@ exports.check = function(req, res, next) {
 
 //GET new
 exports.new = function(req, res, next) {
-  res.render('quizzes/new');
+  var quiz = models.Quiz.build({question: "", answer:""});
+  res.render('quizzes/new', {
+    quiz : quiz
+  });
 };
 
 //POST create

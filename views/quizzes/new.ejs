@@ -1,21 +1,5 @@
-<p>Añadir pregunta</p>
-<p>
+<p><strong>AÑADIR PREGUNTA</strong></p>
+<br>
 <form method="post" action="/quizzes">
-  <label for="preg">Pregunta:</label>
-    <input type="text" id="preg" name="question" value=""
-    placeholder="Pregunta" />
-  <label for="resp">Respuesta:</label>
-    <input type="text" id="resp" name="answer" value=""
-      placeholder="Respuesta" />
-  <label for="tem">Temática</label>
-      <select name="tematica">
-        <option></option>
-        <option>geografia</option>
-        <option>tecnología</option>
-        <option>ocio</option></select>
-    <a href="/quizzes"><button type="button">Cancelar</button></a>
-
-    <input type="submit" value="Salvar">
-
-  </form>
-</p>
+  <% include _form.ejs %>
+</form>

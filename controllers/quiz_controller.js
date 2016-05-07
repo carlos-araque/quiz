@@ -24,10 +24,8 @@ exports.index = function(req, res, next) {
             res.render('quizzes/index',
                 {
                     quizzes: quizzes
-                }
-            );
-        }
-    ).catch(function(error){next(error);});
+                });
+    }).catch(function(error){next(error);});
   }else if(req.query.tematica){
     var tematica = req.query.tematica;
     models.Quiz.findAll({where : { tematica : tematica}})
@@ -35,14 +33,17 @@ exports.index = function(req, res, next) {
         res.render('quizzes/index',
             {
                 quizzes: quizzes
-            }
-        );
+            });
     }).catch(function(error){next(error);});
   }else{
   models.Quiz.findAll().then(function(quizzes) {
-    res.render('quizzes/index', {
-      quizzes : quizzes
-    });
+    if(req.params.format==="json"){
+      res.json({ quizzes});
+    }else{
+      res.render('quizzes/index',
+          {
+              quizzes: quizzes
+          });}
   }).catch(function(error){
     next(error);
   });}
@@ -51,11 +52,15 @@ exports.index = function(req, res, next) {
 // GET /quizzes/:id
 exports.show = function(req, res, next) {
     var answer = req.query.answer || '';
+    var quiz = req.quiz;
+    if(req.params.format==="json"){
+      res.json({ quiz });
+    }else{
       res.render('quizzes/show',{
-        tematica : req.quiz.tematica.toUpperCase(),
-        quiz : req.quiz,
+        tematica : quiz.tematica.toUpperCase(),
+        quiz : quiz,
         answer : answer
-      });
+      });}
 };
 
 //GET check

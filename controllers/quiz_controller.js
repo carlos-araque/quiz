@@ -66,6 +66,7 @@ exports.show = function(req, res, next) {
 //GET check
 exports.check = function(req, res, next) {
   var answer = req.query.answer || "";
+  answer = answer.replace("+",/ /g); //replace espacios por %
   var result = answer.toLowerCase() === req.quiz.answer.toLowerCase() ? 'Correcta':'Incorrecta';
     res.render('quizzes/result',{
         quiz : req.quiz,

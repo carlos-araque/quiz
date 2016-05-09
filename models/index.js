@@ -26,20 +26,4 @@ var sequelize = new Sequelize(url,
 
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
 
-sequelize.sync().then(function(){
-  return Quiz.count().then(function(c){
-    if (c === 0) {
-      return Quiz.bulkCreate([
-         {question: 'Capital de Italia',   answer: 'Roma', tematica: 'geografia'},
-         {question: 'Capital de Portugal',  answer: 'Lisboa', tematica: 'geografia'}
-         ]).then(function() {
-             console.log('Base de datos inicializada con datos');
-         });
-    }
-  });
-}).catch(function(error){
-  console.log("Error Sincronizando las tablas de la BBDD:", error);
-  process.exit(1);
-});
-
 exports.Quiz = Quiz;

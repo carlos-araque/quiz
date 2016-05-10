@@ -1,1 +1,0 @@
-{ "development": { "username": null, "password": null, "database": null, "host": null, "dialect": "sqlite", "storage": "quiz.sqlite" }, "production": { "use_env_variable": "DATABASE_URL" } }

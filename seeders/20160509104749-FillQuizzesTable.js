@@ -5,7 +5,7 @@ module.exports = {
 
       return queryInterface.bulkInsert('Quizzes', [
          { question: 'Capital de Italia', answer: 'Roma',
-           tematica: 'geografia',
+           tematica: 'geografia', 
            createdAt: new Date(), updatedAt: new Date() },
          { question: 'Capital de Portugal', answer: 'Lisboa',
            tematica: 'geografia',

@@ -86,12 +86,14 @@ exports.new = function(req, res, next) {
 
 //POST create
 exports.create = function(req, res, next) {
+  var authorId = req.session.user && req.session.user.id || 0;
   var quiz = models.Quiz.build({
     question: req.body.question,
     answer: req.body.answer,
-    tematica: req.body.tematica
+    tematica: req.body.tematica,
+    AuthorId: authorId
   });
-  quiz.save({fields: ["question", "answer", "tematica"]})
+  quiz.save({fields: ["question", "answer", "tematica", "AuthorId"]})
     .then(function(quiz) {
       req.flash('success', 'Pregunta creada con éxito');
       res.redirect('/quizzes');

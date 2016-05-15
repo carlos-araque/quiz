@@ -33,6 +33,13 @@ app.use(flash());
 app.use(methodOverride('_method', {methods: ["POST", "GET"]}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Helper dinamico
+app.use(function(req,res,next) {
+  //Hacer visible req.session en las vistas
+  res.locals.session = req.session;
+  next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler

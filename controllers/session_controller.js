@@ -1,6 +1,8 @@
 var models = require('../models');
 var Sequelize = require('sequelize');
 var url = require('url');
+var timeout;
+var tiempo;
 
 // Middleware: Se requiere hacer login.
 //
@@ -37,6 +39,14 @@ var authenticate = function(login, password) {
         });
 };
 
+var cuentaAtras = function(req) {
+  console.log("Entro en cuentaAtras"+ req.tiempo);
+  timeout=setTimeout(function(){
+    req.session.user.tiempo="1";
+    console.log("TEMPORIZADOR")
+  },7000);
+};
+
 // GET /session   -- Formulario de login
 //
 // Paso como parametro el valor de redir (es una url a la que
@@ -61,7 +71,8 @@ exports.create = function(req, res, next) {
             if (user) {
     	        // Crear req.session.user y guardar campos id y username
     	        // La sesión se define por la existencia de: req.session.user
-    	        req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
+              tiempo = 0;
+    	        req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin, tiempo:"0"};
                 res.redirect(redir); // redirección a redir
             } else {
                 req.flash('error', 'La autenticación ha fallado. Reinténtelo otra vez.');
@@ -78,3 +89,24 @@ exports.destroy = function(req, res, next) {
     delete req.session.user;
     res.redirect("/session"); // redirect a login
 };
+
+//Comprobar si lleva más de dos minutos sin hacer nada
+exports.comprobar = function(req,res,next) {
+  if(!req.session.user){
+    console.log("No hay usuario");
+    next();
+  } else {
+    req.session.user.tiempo = tiempo;
+    console.log(req.session.user);
+    clearTimeout(timeout);
+    if(req.session.user.tiempo === 1){
+      delete req.session.user;
+      res.redirect("/session");
+    } else {
+      timeout=setTimeout(function(){
+        tiempo=1;
+      },7000);
+      next();
+    }
+  }
+}

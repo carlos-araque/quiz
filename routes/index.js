@@ -25,7 +25,7 @@ router.post('/session',   sessionController.create);  // crear sesión
 router.delete('/session', sessionController.destroy); // destruir sesión
 
 // Definición de rutas de cuenta
-router.get('/users',                    userController.index);   // listado usuarios
+router.get('/users', userController.index);   // listado usuarios
 router.get('/users/:userId(\\d+)',      userController.show);    // ver un usuario
 router.get('/users/new',                userController.new);     // formulario sign un
 router.post('/users',                   userController.create);     // registrar usuario

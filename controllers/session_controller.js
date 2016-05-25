@@ -64,7 +64,7 @@ exports.create = function(req, res, next) {
     	        // La sesión se define por la existencia de: req.session.user
               tiempo = 0;
     	        req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin, tiempo:"0"};
-                res.redirect(redir); // redirección a redir
+              res.redirect(redir); // redirección a redir
             } else {
                 req.flash('error', 'La autenticación ha fallado. Reinténtelo otra vez.');
                 res.redirect("/session?redir="+redir);
@@ -79,4 +79,30 @@ exports.create = function(req, res, next) {
 exports.destroy = function(req, res, next) {
     delete req.session.user;
     res.redirect("/session"); // redirect a login
+};
+
+//Comprobar si el usuario autenticado es el propietario de la cuenta o es el admin
+exports.adminOrMyselfRequired = function(req,res,next){
+  var isAdmin = req.session.user.isAdmin;
+  var userId = req.user.id;
+  var loggedUserId = req.session.user.id;
+  if ( isAdmin || userId === loggedUserId){
+    next();
+  } else{
+    console.log('Operación prohibida: El usuario logueado no es admin ni propietario de la cuenta');
+    res.send(403);
+  }
+};
+
+//Comprobar si el usuario autenticado es el propietario de quizId
+exports.adminAndNotMyselfRequired = function(req,res,next){
+  var isAdmin = req.session.user.isAdmin;
+  var userId = req.quiz.AuthorId;
+  var loggedUserId = req.session.user.id;
+  if ( isAdmin && userId !== loggedUserId){
+    next();
+  } else{
+    console.log('Ruta prohibida: El usuario logueado no es admin ni propietario');
+    res.send(403);
+  }
 };

@@ -8,11 +8,10 @@ var session = require('express-session');
 var partials = require('express-partials');
 var flash = require('express-flash');
 var methodOverride = require('method-override');
-
 var routes = require('./routes/index');
-
 var app = express();
-
+var timeout;
+var tiempo;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -38,6 +37,26 @@ app.use(function(req,res,next) {
   //Hacer visible req.session en las vistas
   res.locals.session = req.session;
   next();
+});
+
+app.use(function(req,res,next){
+  if(!req.session.user){
+      console.log("No hay usuario");
+      tiempo=0;
+      next();
+  } else {
+      req.session.user.tiempo = tiempo;
+      clearTimeout(timeout);
+      if(req.session.user.tiempo === 1){
+        delete req.session.user;
+        res.redirect("/session");
+      } else {
+        timeout=setTimeout(function(){
+        tiempo=1;
+        },7000);
+        next();
+        }
+     }
 });
 
 app.use('/', routes);

@@ -147,3 +147,16 @@ exports.destroy = function(req, res, next) {
     next(error);
   });
 };
+
+//Comprobar si el usuario autenticado es el propietario de quizId
+exports.ownershipRequired = function(req,res,next){
+  var isAdmin = req.session.user.isAdmin;
+  var quizAuthorId = req.quiz.AuthorId;
+  var loggedUserId = req.session.user.id;
+  if ( isAdmin || quizAuthorId === loggedUserId){
+    next();
+  } else{
+    console.log('Operación prohibida: El usuario logueado no es admin ni autor del quiz');
+    res.send(403);
+  }
+};

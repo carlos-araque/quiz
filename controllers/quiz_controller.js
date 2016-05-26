@@ -230,7 +230,6 @@ function updateAttachment(req, uploadResult, quiz) {
 
     // Recordar public_id de la imagen antigua.
     var old_public_id = quiz.Attachment ? quiz.Attachment.public_id : null;
-
     return quiz.getAttachment().then(function(attachment) {
         if (!attachment) {
             attachment = models.Attachment.build({ QuizId: quiz.id });

@@ -8,7 +8,8 @@ var cloudinary_image_options = { crop: 'limit', width: 200, height: 200, radius:
                                  border: "3px_solid_blue", tags: ['core', 'quiz-2016'] };
 
 exports.load = function(req, res, next, quizId) {
-  models.Quiz.findById(quizId, {include: [models.Comment, models.Attachment]})
+  models.Quiz.findById(quizId, {include: [{model:models.Attachment},
+    {model:models.Comment,include:[{model:models.User, as:'Author'}]}]})
   .then(function(quiz) {
     if(quiz){
       req.quiz = quiz;
@@ -245,8 +246,7 @@ function updateAttachment(req, uploadResult, quiz) {
         if (old_public_id) {
             cloudinary.api.delete_resources(old_public_id);
         }
-    })
-    .catch(function(error) { // Ignoro errores de validacion en imagenes
+    }).catch(function(error) { // Ignoro errores de validacion en imagenes
         req.flash('error', 'No se ha podido salvar la nueva imagen: '+error.message);
         cloudinary.api.delete_resources(uploadResult.public_id);
     });

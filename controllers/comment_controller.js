@@ -22,9 +22,11 @@ exports.new = function(req, res, next) {
 };
 // POST /quizzes/:quizId/comments
 exports.create = function(req, res, next) {
+  var authorId = req.session.user && req.session.user.id || 0;
   var comment = models.Comment.build({
              text: req.body.comment,
-             QuizId: req.quiz.id
+             QuizId: req.quiz.id,
+             AuthorId: authorId
   });
   comment.save().then(function(comment){
     req.flash('success', 'Comentario creado con éxito');

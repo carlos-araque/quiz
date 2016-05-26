@@ -25,7 +25,7 @@
        var comment = quiz.Comments[i];
        if (comment.accepted) { %>
 
-         <li> <%= comment.text %> </li>
+         <li> <%= comment.text %> (<%= comment.Author.username %>)</li>
          <% } else if (session.user &&
          (session.user.isAdmin || (quiz.AuthorId === session.user.id))) { %>
            <li> <%= comment.text %> </li>

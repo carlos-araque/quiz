@@ -53,7 +53,6 @@ app.use(function(req,res,next) {
 
 app.use(function(req,res,next){
   if(!req.session.user){
-      console.log("No hay usuario");
       tiempo=0;
       next();
   } else {

@@ -3,12 +3,12 @@
     <form method="get" action="/quizzes/<%= quiz.id %>/check">
       Pregunta:<%= quiz.question %>
     </p>
-      <% if (quizzes[i].Attachment) { %>
-        <img src="<%= quizzes[i].Attachment.url %>"  />
+      <% if (quiz.Attachment) { %>
+        <img src="<%= quiz.Attachment.url %>"  />
       <% } else { %>
-      <img src="/imgs/question.png" width="50px" />
+      <img src="/images/question.png" width="50px" />
       <% } %>
-      
+
       <p>
         <input type="text" name="answer" value="<%= answer %>" placeholder="Responda aquí">
         <input type="submit" value="Comprobar">

@@ -231,8 +231,12 @@ function updateAttachment(req, uploadResult, quiz) {
     // Recordar public_id de la imagen antigua.
     var old_public_id = quiz.Attachment ? quiz.Attachment.public_id : null;
 
+<<<<<<< HEAD
     return quiz.getAttachment()
     .then(function(attachment) {
+=======
+    return quiz.getAttachment().then(function(attachment) {
+>>>>>>> busqueda
         if (!attachment) {
             attachment = models.Attachment.build({ QuizId: quiz.id });
         }
@@ -241,8 +245,12 @@ function updateAttachment(req, uploadResult, quiz) {
         attachment.filename = req.file.originalname;
         attachment.mime = req.file.mimetype;
         return attachment.save();
+<<<<<<< HEAD
     })
     .then(function(attachment) {
+=======
+    }).then(function(attachment) {
+>>>>>>> busqueda
         req.flash('success', 'Imagen nueva guardada con éxito.');
         if (old_public_id) {
             cloudinary.api.delete_resources(old_public_id);

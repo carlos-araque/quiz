@@ -27,7 +27,7 @@ exports.index = function(req, res, next) {
   if(req.query.search){
     var texto = '%' + req.query.search.toString()+'%';
     texto = texto.replace(/ /g, "%"); //replace espacios por %
-    models.Quiz.findAll({where: ["question like ?", texto]})
+    models.Quiz.findAll({where: ["question like ?", texto], include: [models.Attachment]})
         .then(function(quizzes) {
             res.render('quizzes/index',
                 {
@@ -36,8 +36,7 @@ exports.index = function(req, res, next) {
     }).catch(function(error){next(error);});
   }else if(req.query.tematica){
     var tematica = req.query.tematica;
-    models.Quiz.findAll({where : { tematica : tematica}})
-    .then(function(quizzes) {
+    models.Quiz.findAll({where : { tematica : tematica}, include: [ models.Attachment ]}).then(function(quizzes) {
         res.render('quizzes/index',
             {
                 quizzes: quizzes

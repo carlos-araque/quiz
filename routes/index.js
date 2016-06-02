@@ -39,6 +39,7 @@ router.delete('/users/:userId(\\d+)', sessionController.loginRequired, sessionCo
 router.get('/quizzes.:format?', quizController.index);
 router.get('/quizzes/:quizId(\\d+).:format?', quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', quizController.check);
+router.get('/quizzes/misQuizzes', sessionController.loginRequired, quizController.misPreguntas);
 router.get('/quizzes/new', sessionController.loginRequired, quizController.new);
 router.post('/quizzes', sessionController.loginRequired, upload.single('image'), quizController.create);
 router.get('/quizzes/:quizId(\\d+)/edit', sessionController.loginRequired, quizController.ownershipRequired, quizController.edit);

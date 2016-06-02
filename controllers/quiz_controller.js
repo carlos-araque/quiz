@@ -56,6 +56,18 @@ exports.index = function(req, res, next) {
   });}
 };
 
+exports.misPreguntas= function(req,res,next) {
+  models.Quiz.findAll({where: {AuthorId: req.session.user.id},
+                       include:[{model:models.Attachment},
+                                 {model:models.User,as:'Author'}]})
+              .then(function(quizzes){
+                res.render('quizzes/misQuizzes',{
+                  quizzes: quizzes
+                });
+              }).catch(function(error){
+                next(error);
+              });
+};
 // GET /quizzes/:id
 exports.show = function(req, res, next) {
     var answer = req.query.answer || '';

@@ -55,7 +55,7 @@ exports.new = function(req,res,next) {
 
 // POST /session   -- Crear la sesion si usuario se autentica
 exports.create = function(req, res, next) {
-    var redir = req.body.redir || '/';
+    var redir     = req.body.redir || '/';
     var login     = req.body.login;
     var password  = req.body.password;
     authenticate(login, password).then(function(user) {
